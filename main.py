@@ -14,6 +14,7 @@ data.columns = data.columns.droplevel(1)
 
 
 """2. Feature Engineering"""
+
 #Daily return
 data["Daily Returns"] = data["Close"].pct_change()
 
@@ -43,11 +44,20 @@ max_dd = drawdown.min()
 
 print("Max Drawdown:", max_dd)
 
-#Creating the graphs
-plt.figure(figsize=(10,5))
-plt.plot(data["Close"], label = "Close")
-plt.plot(data["MA_20"], label = "MA 20")
-plt.plot(data["MA_200"], label = "MA_200")
+"""4. Visulaization"""
+
+plt.figure(figsize=(12,8))
+
+plt.subplot(2,1,1)
+plt.plot(data["Close"], label="Close")
+plt.plot(data["MA_20"], label="MA 20")
+plt.plot(data["MA_200"], label="MA 200")
 plt.legend()
-plt.title("AAPL prices with 20 day moving average")
+plt.title("Price & Moving Averages")
+
+plt.subplot(2,1,2)
+plt.plot(data["Vol_20_Annualized"])
+plt.title("20-Day Annualized Volatility")
+
+plt.tight_layout()
 plt.show()
