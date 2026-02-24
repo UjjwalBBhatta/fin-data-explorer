@@ -12,11 +12,6 @@ data = yf.download(ticker, start = "2022-01-01", end = "2025-01-01")
 #Clean multinidex
 data.columns = data.columns.droplevel(1) 
 
-#Basic pandas operations
-print(type(data))
-print(data.columns)
-print(data.describe())
-print(data.info())
 
 """2. Feature Engineering"""
 #Daily return
@@ -32,6 +27,14 @@ data["Vol_20"] = data["Close"].rolling(20).std()
 #Annual Volatility
 data["Vol_20_Annualized"] = data["Vol_20"]*np.sqrt(252)
 
+"""3. Risk Metrics"""
+
+#Approx sharpe(risk-free=0)
+mean_daily = data["Daily Returns"].mean()
+std_daily = data["Daily Returns"].std()
+
+sharpe = (mean_daily * 252) / (std_daily * np.sqrt(252))
+print("Approx Sharpe:", sharpe)
 
 #Creating the graphs
 plt.figure(figsize=(10,5))
