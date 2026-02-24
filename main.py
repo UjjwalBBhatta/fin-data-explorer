@@ -19,6 +19,9 @@ data["MA_200"] = data["Close"].rolling(200).mean()
 
 print(data[["Close", "Daily Returns", "MA_20"]].tail())
 
+
+# Adding volatility series to the datafrmae
+data["Vol_20"] = data["Close"].rolling(20).std()
 #Creating the graphs
 plt.figure(figsize=(10,5))
 plt.plot(data["Close"], label = "Close")
