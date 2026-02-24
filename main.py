@@ -1,27 +1,38 @@
 import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+
+"""1. Data fetching"""
+
 # Lets use the data of Apple
 ticker = "AAPL"
 # Downloading data from yfinance
 data = yf.download(ticker, start = "2022-01-01", end = "2025-01-01")
+#Clean multinidex
+data.columns = data.columns.droplevel(1) 
+
 #Basic pandas operations
 print(type(data))
-data.columns = data.columns.droplevel(1)
 print(data.columns)
 print(data.describe())
 print(data.info())
 
-#Adding daily return and moving averages to the datafrmae.
+"""2. Feature Engineering"""
+#Daily return
 data["Daily Returns"] = data["Close"].pct_change()
+
+#Moving averages
 data["MA_20"]= data["Close"].rolling(20).mean()
 data["MA_200"] = data["Close"].rolling(200).mean()
 
-print(data[["Close", "Daily Returns", "MA_20"]].tail())
-
-
-# Adding volatility series to the datafrmae
+# Rolling volatility (20 day std)
 data["Vol_20"] = data["Close"].rolling(20).std()
+
+#Annual Volatility
+data["Vol_20_Annualized"] = data["Vol_20"]*np.sqrt(252)
+
+
 #Creating the graphs
 plt.figure(figsize=(10,5))
 plt.plot(data["Close"], label = "Close")
