@@ -36,6 +36,13 @@ std_daily = data["Daily Returns"].std()
 sharpe = (mean_daily * 252) / (std_daily * np.sqrt(252))
 print("Approx Sharpe:", sharpe)
 
+#Max Drawdown
+roll_max = data["Close"].cummax()
+drawdown = (data["Close"] - roll_max) / roll_max
+max_dd = drawdown.min()
+
+print("Max Drawdown:", max_dd)
+
 #Creating the graphs
 plt.figure(figsize=(10,5))
 plt.plot(data["Close"], label = "Close")
