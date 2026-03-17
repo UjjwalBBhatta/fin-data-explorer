@@ -35,6 +35,18 @@ def compute_covariance(x,y):
 
     return sum((x[i]-mean_x)*(y[i]-mean_y) for i in range(n))/(n-1)
 
+def compute_corelation(x,y):
+    """Computes corelation between two data
+    
+    Formula: Correlation(x,y) = Cov(x/y)/(sqrt(var(x))*sqrt(var(y)))
+    Args:
+        x: first array
+        y: second array
+        
+    Returns:
+        float correlation"""
+    return compute_covariance(x,y)/((compute_variance(x)*compute_variance(y))**0.5)
+ 
 #### Testing teh code ####
 import numpy as np
 
