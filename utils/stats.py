@@ -47,6 +47,13 @@ def compute_corelation(x,y):
         float correlation"""
     return compute_covariance(x,y)/((compute_variance(x)*compute_variance(y))**0.5)
  
+def log_returns(prices):
+    return np.log(prices/prices.shift(1)).dropna()
+
+def calculate_maxdd(prices):
+    run_max = prices.cummax()
+    dropdows = (prices-run_max)/run_max
+    return dropdows.min()
 #### Testing teh code ####
 import numpy as np
 
