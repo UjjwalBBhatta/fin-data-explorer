@@ -48,13 +48,26 @@ def compute_corelation(x,y):
     return compute_covariance(x,y)/((compute_variance(x)*compute_variance(y))**0.5)
  
 def log_returns(prices):
+    """Takes a dataset as a parmeter
+       Calculates the log return of a dataset
+    """
     return np.log(prices/prices.shift(1)).dropna()
 
 def calculate_maxdd(prices):
+    """Computes the max drawdown of a ticker.
+    First calculate the maximum for each
+    After that calculates the drawdowns qand creates an array
+    then the minimum of the drawdown(the most negative) is the max drawdown"""
     run_max = prices.cummax()
     dropdows = (prices-run_max)/run_max
     return dropdows.min()
-#### Testing teh code ####
+
+def calculate_annual_sharpe(returns, rf = 0.0, periods_per_year = 252):
+    """Computes the annualized sharpe ratio of a Ticker
+    """
+    daily_rf = rf/periods_per_year
+    return ((returns.mean()-daily_rf)/returns.std())*np.sqrt(periods_per_year)
+#### Testing the code ####
 import numpy as np
 
 # Test array
